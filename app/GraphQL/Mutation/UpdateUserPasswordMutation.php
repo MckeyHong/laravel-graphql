@@ -21,17 +21,24 @@ class UpdateUserPasswordMutation extends Mutation
     public function args()
     {
         return [
-            'id'       => ['name' => 'id', 'type' => Type::nonNull(Type::string())],
-            'password' => ['name' => 'password', 'type' => Type::nonNull(Type::string())]
+            'id'       => ['name' => 'id', 'type' => Type::string()],
+            'password' => ['name' => 'password', 'type' => Type::string()],
+        ];
+    }
+
+    public function rules()
+    {
+        return [
+            'id'       => ['required'],
+            'password' => ['required', 'min:8', 'max:20'],
         ];
     }
 
     public function resolve($root, $args)
     {
         $user = User::find($args['id']);
-
         if (!$user) {
-            return null;
+            return 'The selected user is invalid.';
         }
 
         $user->password = bcrypt($args['password']);
