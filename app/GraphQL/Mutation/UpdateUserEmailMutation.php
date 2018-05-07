@@ -23,7 +23,7 @@ class UpdateUserEmailMutation extends Mutation
     {
         return [
             'id'    => ['name' => 'id', 'type' => Type::string()],
-            'email' => ['name' => 'email', 'type' => Type::string()]
+            'email' => ['name' => 'email', 'type' => Type::string()],
         ];
     }
 
@@ -31,16 +31,15 @@ class UpdateUserEmailMutation extends Mutation
     {
         return [
             'id'    => ['required'],
-            'email' => ['required', 'email']
+            'email' => ['required', 'email', 'unique:users,email'],
         ];
     }
 
     public function resolve($root, $args)
     {
         $user = User::find($args['id']);
-
         if (!$user) {
-            return null;
+            return 'The selected user is invalid.';
         }
 
         $user->email = $args['email'];
