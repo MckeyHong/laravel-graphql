@@ -28,6 +28,10 @@ class UserType extends BaseType
                 'type'        => Type::string(),
                 'description' => 'The email of the user',
             ],
+            'password' => [
+                'type'        => Type::nonNull(Type::string()),
+                'description' => 'The password of the user',
+            ],
         ];
     }
 
